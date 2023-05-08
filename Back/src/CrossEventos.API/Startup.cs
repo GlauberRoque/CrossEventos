@@ -33,6 +33,7 @@ namespace CrossEventos.API;
                 options => options.UseSqlServer("Data Source=DESKTOP-31T93GE;Initial Catalog=CrossEventos;Integrated Security=True;TrustServerCertificate=True")
             );
             services.AddControllers();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CrossEventos.API", Version = "v1" });
@@ -54,6 +55,11 @@ namespace CrossEventos.API;
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(x => x.AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .AllowAnyOrigin()
+            );
 
             app.UseEndpoints(endpoints =>
             {
