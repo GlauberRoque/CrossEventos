@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CrossEventos.API.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +28,10 @@ namespace CrossEventos.API;
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //String de conexão direta com autenticação via windows.
+            services.AddDbContext<DataContext>(
+                options => options.UseSqlServer("Data Source=DESKTOP-31T93GE;Initial Catalog=CrossEventos;Integrated Security=True;TrustServerCertificate=True")
+            );
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

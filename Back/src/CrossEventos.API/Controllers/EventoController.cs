@@ -1,3 +1,4 @@
+using CrossEventos.API.Data;
 using CrossEventos.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,39 +9,22 @@ namespace CrossEventos.API.Controllers;
 public class EventoController : ControllerBase
 {
   
-    public IEnumerable<Evento> _evento = new Evento[]{
-            new Evento() {
-            EventoID = 1,
-            Nome = "Kvra Games",
-            Local = "Geraldão",
-            DataEvento = DateTime.Now.AddDays(-2).ToString("dd/MM/yyyy"),
-            QtdPessoas = 1000,
-            ImagemURL = "kvra.png"
-            },
-            new Evento() {
-            EventoID = 2,
-            Nome = "Deep Games",
-            Local = "Deep Box",
-            DataEvento = DateTime.Now.AddDays(15).ToString("dd/MM/yyyy"),
-            QtdPessoas = 500,
-            ImagemURL = "deepGames.png"
-            }
-    };
+        private readonly DataContext _context;
 
-    public EventoController()
+    public EventoController(DataContext context)
     {
-       
+            _context = context;
     }
 // metodo de busca de eventos
     [HttpGet]
     public IEnumerable<Evento> GetEventos()
     {
-       return _evento;
+       return _context.Eventos;
     }
     [HttpGet("{id}")]
-    public IEnumerable<Evento> EventosPorID(int id)
+    public Evento EventosPorID(int id)
     {
-       return _evento.Where(evento => evento.EventoID == id);
+       return _context.Eventos.FirstOrDefault(evento => evento.EventoID == id);
     }
 
 // metodo de inserir eventos
