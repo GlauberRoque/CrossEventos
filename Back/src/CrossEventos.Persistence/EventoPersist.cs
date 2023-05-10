@@ -29,7 +29,7 @@ namespace CrossEventos.Persistence
                              .ThenInclude(pe => pe.Promotor);
             }                    
             
-            query = query.AsNoTracking().OrderBy(e => e.Id);
+            query = query.AsNoTracking().OrderBy(e => e.id);
             return await query.ToArrayAsync();
         }
 
@@ -44,7 +44,7 @@ namespace CrossEventos.Persistence
                              .ThenInclude(pe => pe.Promotor);
             }                    
             
-            query = query.AsNoTracking().OrderBy(e => e.Id).Where(e => e.Nome.ToLower().Contains(nome.ToLower()));
+            query = query.AsNoTracking().OrderBy(e => e.id).Where(e => e.Nome.ToLower().Contains(nome.ToLower()));
             return await query.ToArrayAsync();
         }
 
@@ -60,7 +60,7 @@ namespace CrossEventos.Persistence
                              .ThenInclude(pe => pe.Promotor);
             }                    
             
-            query = query.AsNoTracking().OrderBy(e => e.Id).Where(e => e.Id == EventoId);
+            query = query.AsNoTracking().OrderBy(e => e.id).Where(e => e.id == EventoId);
             return await query.FirstOrDefaultAsync();
         }
 

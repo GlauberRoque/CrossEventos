@@ -10,7 +10,7 @@ namespace CrossEventos.Domain
 {
     public class Evento
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public string Nome { get; set; }
         public string Local { get; set; }
         public DateTime? DataEvento { get; set; }

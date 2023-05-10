@@ -25,7 +25,7 @@ namespace CrossEventos.Application
                 _geralPersist.Add<Evento>(model);
                 if (await _geralPersist.SaveChangeAsync())
                 {
-                    return await _eventoPersist.GetEventosByIdAsync(model.Id, false);
+                    return await _eventoPersist.GetEventosByIdAsync(model.id, false);
                 }
                 return null;
             }
@@ -45,12 +45,12 @@ namespace CrossEventos.Application
                     return null;
                 }
 
-                model.Id = evento.Id;
+                model.id = evento.id;
 
                 _geralPersist.Update(model);
                 if (await _geralPersist.SaveChangeAsync())
                 {
-                    return await _eventoPersist.GetEventosByIdAsync(model.Id, false);
+                    return await _eventoPersist.GetEventosByIdAsync(model.id, false);
                 }
                 return null;
 
