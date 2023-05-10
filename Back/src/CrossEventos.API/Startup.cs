@@ -2,7 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CrossEventos.API.Data;
+using CrossEventos.Application;
+using CrossEventos.Application.Contratos;
+using CrossEventos.Persistence;
+using CrossEventos.Persistence;
+using CrossEventos.Persistence.Contexto;
+using CrossEventos.Persistence.Contrato;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,10 +34,17 @@ namespace CrossEventos.API;
         public void ConfigureServices(IServiceCollection services)
         {
             //String de conexão direta com autenticação via windows.
-            services.AddDbContext<DataContext>(
+            services.AddDbContext<CrossEventosContext>(
                 options => options.UseSqlServer("Data Source=DESKTOP-31T93GE;Initial Catalog=CrossEventos;Integrated Security=True;TrustServerCertificate=True")
             );
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling =
+                                            Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                    
+
+            services.AddScoped<IEventosService, EventoService>();
+            services.AddScoped<IGeralPersist, GeralPersist>();
+            services.AddScoped<IEventoPersist, EventoPersist>();
             services.AddCors();
             services.AddSwaggerGen(c =>
             {
