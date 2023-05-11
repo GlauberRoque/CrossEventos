@@ -3,6 +3,7 @@ using CrossEventos.Domain;
 using Microsoft.AspNetCore.Mvc;
 using CrossEventos.Persistence.Contexto;
 using CrossEventos.Application.Contratos;
+using CrossEventos.Application.Dtos;
 
 namespace CrossEventos.API.Controllers;
 
@@ -26,8 +27,9 @@ public class EventoController : ControllerBase
        {
             var eventos = await _eventosService.GetAllEventosAsync(true);
             if (eventos == null) {
-                return NotFound("Nenehum evento encontrado");
+                return NoContent();
             }
+
 
             return Ok(eventos);
        }
@@ -43,7 +45,7 @@ public class EventoController : ControllerBase
        {
             var evento = await _eventosService.GetEventosByIdAsync(id, true);
             if (evento == null) {
-                return NotFound("Nenehum evento encontrado");
+                return NoContent();
             }
 
             return Ok(evento);
@@ -61,7 +63,7 @@ public class EventoController : ControllerBase
        {
             var evento = await _eventosService.GetAllEventosByNomeAsync(nome, true);
             if (evento == null) {
-                return NotFound("Nenehum evento encontrado");
+                return NoContent();
             }
 
             return Ok(evento);
@@ -74,13 +76,13 @@ public class EventoController : ControllerBase
 
 // metodo de inserir eventos
     [HttpPost]
-    public async Task<IActionResult> Post(Evento model)
+    public async Task<IActionResult> Post(EventoDto model)
     {
          try
        {
             var evento = await _eventosService.AddEventos(model);
             if (evento == null) {
-                return BadRequest("Erro ao tentar adicionar evento.");
+                return NoContent();
             }
 
             return Ok(evento);
@@ -92,13 +94,13 @@ public class EventoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, Evento model)
+    public async Task<IActionResult> Put(int id, EventoDto model)
     {
          try
        {
             var evento = await _eventosService.UpdateEventos(id, model);
             if (evento == null) {
-                return BadRequest("Erro ao tentar adicionar evento.");
+                return NoContent();
             }
 
             return Ok(evento);
@@ -114,10 +116,15 @@ public class EventoController : ControllerBase
     {
           try
        {
+              var evento = await _eventosService.GetEventosByIdAsync(id, true);
+            if (evento == null) {
+                return NoContent();
+            }
+
             if(await _eventosService.DeleteEventos(id)){
                 return Ok("Deletado");
             } else  {
-                return BadRequest("Evento não deletado");
+                throw new Exception("Evento não deletado!");
             }
        }
        catch (Exception ex)

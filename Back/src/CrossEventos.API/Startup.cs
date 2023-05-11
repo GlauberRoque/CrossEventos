@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using AutoMapper;
 
 namespace CrossEventos.API;
 
@@ -41,7 +42,7 @@ namespace CrossEventos.API;
                     .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling =
                                             Newtonsoft.Json.ReferenceLoopHandling.Ignore);
                     
-
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IEventosService, EventoService>();
             services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IEventoPersist, EventoPersist>();
